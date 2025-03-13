@@ -1,4 +1,4 @@
-FROM node:20.18-alpine3.19
+FROM node:20.18 AS build
 
 WORKDIR /usr/src/app
 
@@ -9,6 +9,14 @@ RUN yarn
 COPY . .
 
 RUN yarn run build
+
+FROM node:20.18-alpine3.19
+
+WORKDIR /usr/src/app
+
+COPY --from=build /usr/src/app/dist ./dist
+COPY --from=build /usr/src/app/node_modules ./node_modules 
+
 
 EXPOSE 3000
 
