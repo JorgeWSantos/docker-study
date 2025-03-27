@@ -9,21 +9,20 @@ jobs:
   build:
     name: 'Build and Push'
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node: [16, 18, 20]
+        node: [ 16, 18, 20 ]
 
     steps:
-      - uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node }}
-          cache: 'yarn'
-      - run: yarn
-      - run: yarn test
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node }}
+        cache: 'yarn'
+    - run: yarn
+    - run: yarn test
 
-      - name: Build Docker Image
-        run: docker build -t rocketseat-ci-api:latest .
+    - name: Build Docker Image
+      run: docker build -t rocketseat-ci-api:latest .
